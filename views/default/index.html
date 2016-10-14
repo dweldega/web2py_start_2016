@@ -21,7 +21,14 @@
     {{for p in posts:}}
         <div class="post text-left">
             <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
-            {{=p}}
+            <p> {{=p.post_content}} <p/>
+
+           <div class="created_on">
+               <p>
+                    &emsp; Created On: {{=p.created_on}} &emsp; &emsp; &emsp;Updated On {{=p.updated_on}} <p/>
+
+           </div>
+
         </div>
     {{pass}}
     </div>
