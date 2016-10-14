@@ -22,41 +22,21 @@ def index():
     """
     This is your main controller.
     """
-    posts = None
-    if auth.user_id is not None:
-        # The user is logged in.
-        # Gets the list of all checklists for the user.
-        #posts = db(db.posts.user_email == auth.user.email).select(
-            posts = db().select(db.post.ALL, orderby=~db.post.created_on)
-
-    return dict(posts=posts)
     # I am creating a bogus list here, just to have some divs appear in the
     # view.  You need to read at most 20 posts from the database, in order of
     # most recent first, and you need to return that list here.
     # Note that posts is NOT a list of strings in your actual code; it is
     # what you get from a db(...).select(...).
-    # posts = ['banana', 'pear', 'eggplant']
-
-
+    posts = ['banana', 'pear', 'eggplant']
+    return dict(posts=posts)
 
 
 @auth.requires_login()
 def edit():
-
-    form = SQLFORM(db.post)
-
-    if form.process().accepted:
-        # At this point, the record has already been inserted.
-        session.flash = T('Posted.')
-        redirect(URL('default', 'index'))
-    elif form.errors:
-        session.flash = T('Please enter correct values.')
-        full_name = get_user_name_from_email
-    return dict(form=form, full_name=full_name)
-
-
-
-    #return dict()
+    """
+    This is the page to create / edit / delete a post.
+    """
+    return dict()
 
 
 def user():
@@ -95,5 +75,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-
