@@ -21,3 +21,22 @@
   -webkit-border-radius: 16px;
   border-radius: 16px;
 }
+
+#main_post {
+  font-size: 20px;
+}
+
+#name_time {
+  color:#4d668e;
+}
+
+.name_time {
+  display: inline-block;
+  padding: 10px 50px;
+
+
+}
+#edit{
+  float: right;
+}
+

@@ -9,6 +9,7 @@
         </a>
     </div>
 
+
 {{else:}}
 
     <div class="post_list_header text-right">
@@ -18,12 +19,37 @@
 {{pass}}
 
     <div class="post_list">
-    {{for p in posts:}}
-        <div class="post text-left">
-            <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
-            {{=p}}
-        </div>
-    {{pass}}
-    </div>
+        {{for p in posts:}}
+            <div class="post text-left">
+                <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
+                <div id="posts">
+                    <div id="main_post">
+                         {{=p.post_content}}
+                    </div>
 
+                    <div class="name_time">
+                        {{=p.first_name}}{{=p.last_name}}
+                    </div>
+                    <div class="name_time">
+                        {{=p.created_on}}
+                    </div>
+                    {{if p.created_on != p.updated_on:}}
+                    <div class="name_time" id="name_time">
+                        Edited on: {{=p.updated_on}}
+                    </div>
+                    {{pass}}
+                    <div class="name_time" id="edit">
+                    {{if auth.user_id:}}
+                        {{if auth.user.email == p.user_email:}}
+                        <a href="{{=URL('default','edit',args=[p.id])}}">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        {{pass}}
+                    {{pass}}
+                    </div>
+                </div>
+
+            </div>
+        {{pass}}
+    </div>
 </div>

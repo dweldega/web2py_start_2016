@@ -27,7 +27,7 @@ def index():
     # most recent first, and you need to return that list here.
     # Note that posts is NOT a list of strings in your actual code; it is
     # what you get from a db(...).select(...).
-    posts = ['banana', 'pear', 'eggplant']
+    posts = db().select(db.post.ALL,orderby=~db.post.created_on, limitby=(0,20))
     return dict(posts=posts)
 
 
@@ -36,7 +36,26 @@ def edit():
     """
     This is the page to create / edit / delete a post.
     """
-    return dict()
+
+    form = SQLFORM(db.post,request.args(0),deletable=True, showid=False)
+    if request.args(0) is None:
+        session.flash= T('testing')
+    else:
+        p = db((db.post.user_email == auth.user.email) & (db.post.id == request.args(0))).select().first()
+        if p is None:
+            session.flash = T('Access Denied')
+            redirect(URL('default', 'index'))
+    if form.accepts(request.vars,session):
+        if not form.record:
+            session.flash= T('posted')
+        else:
+            if form.vars.delete_this_record:
+                session.flash = T('delete')
+            else:
+                session.flash = T('edited')
+                db.post.update()
+        redirect(URL('default', 'index'))
+    return dict(form=form)
 
 
 def user():
@@ -75,5 +94,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-
